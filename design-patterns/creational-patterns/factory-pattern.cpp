@@ -20,7 +20,7 @@ class SMSNotifier : public INotifier{
         }
 };
 
-// Factory class to create notifiers -> factory pattern (only create objects, no family of objects)
+// You delegate object creation to a factory method or class.
 class NotifierFactory{
     public:
         static INotifier* createNotifier(string type){
@@ -35,12 +35,11 @@ class NotifierFactory{
 };
 
 int main(){
-    INotifier* emailNotifier = NotifierFactory::createNotifier("email");
-    emailNotifier->send("Hello from Email!");
+    INotifier* notifier = NotifierFactory::createNotifier("email"); // factory will decide which class to instantiate based on the input
+    notifier->send("Hello from Email!");
 
-    INotifier* smsNotifier = NotifierFactory::createNotifier("sms");
-    smsNotifier->send("Hello from SMS!");
+    notifier = NotifierFactory::createNotifier("sms");
+    notifier->send("Hello from SMS!");
 
-    delete emailNotifier;
-    delete smsNotifier;
+    delete notifier;
 }

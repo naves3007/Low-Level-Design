@@ -1,42 +1,33 @@
-/*
-    Old Service 
-        Intemediate Adapter which converts the interface of the Old Service
-        to the interface expected by the client
-    New Service
-*/
-
 #include <bits/stdc++.h>
 using namespace std;
 
-interface newService{
-    void processPayment(double amount);
+class oldPaymentService {
+public:
+  void makePayment(string paise) {
+    cout << "Payment of " << paise << " made using Old Service" << endl;
+  }
 };
 
-class OldService{
-    public:
-        void makePayment(string paise){
-            cout<<"Payment of "<<paise<<" made using Old Service"<<endl;
-        }
+class newPaymentService {
+public:
+  virtual void newMakePayment(string double_) = 0;
 };
 
-class OldAdapter : public newService{
-    private:
-        OldService oldService;
-    public:
-        OldAdapter(OldService service){
-            this->oldService = service;
-        }
-        void processPayment(double amount){
-            string paise = to_string(amount);
-            oldService.makePayment(paise);
-        }
+class paymentAdapter : public newPaymentService {
+private:
+  oldPaymentService *oldService;
+
+public:
+  paymentAdapter(oldPaymentService *service) { this->oldService = service; }
+  void newMakePayment(string double_) override {
+    string paise = double_; // Convert to paise by appending '0'
+    oldService->makePayment(paise);
+  }
 };
 
-
-
-int main(){
-    OldService oldService;
-    newService* adapter = new OldAdapter(oldService);
-    adapter->processPayment(100.50);
-    return 0;
+int main() {
+  oldPaymentService *oldService = new oldPaymentService();
+  paymentAdapter *adapter = new paymentAdapter(oldService);
+  adapter->newMakePayment("10.5");
+  return 0;
 }

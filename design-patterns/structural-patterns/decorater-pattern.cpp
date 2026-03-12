@@ -1,43 +1,59 @@
-/*
-    Object Wraps Anoother Object To Provide Additional Functionality
-*/
-
 #include <bits/stdc++.h>
 using namespace std;
 
-class ISend(){
-    public:
-        virtual void send() = 0;
-};
-class EmailSender : public ISend{
-    public:
-        void send(){
-            cout<<"Email Sent"<<endl;
-        }
-};
-class Decorator : public ISend{
-    protected:
-        EmailSender* sender;
-    public:
-        Decorator(EmailSender* sender){
-            this->sender = sender;
-        }
-        void send(){
-            sender->send();
-        }
-};
-class EmergencyDecorator : public Decorator{
-    public:
-        EmergencyDecorator(ISend* sender) : Decorator(sender){}
-        void send(){
-            cout<<"Urgent: ";
-            Decorator::send();
-        }
+class coffeeCost {
+public:
+  virtual double getCost() = 0;
+  virtual ~coffeeCost() = default;
 };
 
-int main(){
-    ISend* emailSender = new EmailSender();
-    ISend* emergencyEmailSender = new EmergencyDecorator(emailSender);
-    emergencyEmailSender->send();
-    return 0;
+class simpleCoffee : public coffeeCost {
+public:
+  double getCost() override { return 5.0; }
+};
+
+class coffeeDecorator : public coffeeCost {
+protected: // 🔥 changed
+  coffeeCost *coffee;
+
+public:
+  coffeeDecorator(coffeeCost *c) : coffee(c) {}
+};
+
+class milkDecorator : public coffeeDecorator {
+public:
+  milkDecorator(coffeeCost *c) : coffeeDecorator(c) {}
+
+  double getCost() override {
+    return coffee->getCost() + 1.0; // ✅ FIXED
+  }
+};
+
+class sugarDecorator : public coffeeDecorator {
+public:
+  sugarDecorator(coffeeCost *c) : coffeeDecorator(c) {}
+
+  double getCost() override {
+    return coffee->getCost() + 0.5; // ✅ FIXED
+  }
+};
+
+class whippedCreamDecorator : public coffeeDecorator {
+public:
+  whippedCreamDecorator(coffeeCost *c) : coffeeDecorator(c) {}
+
+  double getCost() override {
+    return coffee->getCost() + 1.5; // ✅ FIXED
+  }
+};
+
+int main() {
+  coffeeCost *myCoffee = new simpleCoffee();
+  myCoffee = new milkDecorator(myCoffee);
+  myCoffee = new sugarDecorator(myCoffee);
+  myCoffee = new whippedCreamDecorator(myCoffee);
+
+  cout << "Total Cost of Coffee: $" << myCoffee->getCost() << endl;
+
+  return 0;
 }

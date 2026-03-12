@@ -1,44 +1,64 @@
 /*
-    when multiple strategy can be bought to same idea
+    When you have many logic, encapsulate them in different child class. and choose them during run-time. 
 */
 
 #include<bits/stdc++.h>
 using namespace std;
 
-class Base{
+class BasePaymentClass{
     public:
-        virtual void send() = 0;
+        virtual void pay(int amount) = 0;
+        virtual ~BasePaymentClass() = default;
 };
-class CardSend : public Base{
+class UpiPaymentClass : public BasePaymentClass{
     public:
-        void send(){
-            cout<<"Card Send"<<endl;
+        void pay(int amount) override {
+            cout << "Paying by UPI: " << amount << endl; 
         }
 };
-class UpiSend : public Base{
+class PayPalPaymentClass : public BasePaymentClass{
     public:
-        void send(){
-            cout<<"Upi Send"<<endl;
+        void pay(int amount) override {
+            cout << "Paying by PayPal: " << amount << endl; 
+        }
+};
+class CardPaymentClass : public BasePaymentClass{
+    public:
+        void pay(int amount) override {
+            cout << "Paying by Card: " << amount << endl; 
         }
 };
 
-class BaseStrategy{
+// Context class: which creates objects of BasePaymentClass to calls on run time
+class ContextPaymentClass{
     private:
-        Base* base;
+        BasePaymentClass* basePaymentClass; // create as pointers
     public:
-        BaseStrategy(Base* base){
-            this->base = base;  
-        }
-        void send(){
-            base->send();
-        }
+        // ContextPaymentClass(BasePaymentClass* s){
+        //     basePaymentClass = s;
+        // }
+        ContextPaymentClass(BasePaymentClass* s) : basePaymentClass(s) {} // above comments lines are just the same 
+                                                                          // but here initialisation happens first itself
+        void setStrategy(BasePaymentClass* s){
+            basePaymentClass = s;
+        }                
+        void makePayment(int amount){
+            basePaymentClass->pay(amount); // use arrows as you create pointers
+        }                                            
 };
 
 int main(){
-    // Just create BaseStrategy object and pass the strategy you want to use as a parameter
-    BaseStrategy* strategy = new BaseStrategy(new CardSend());
-    strategy->send();
-    strategy = new BaseStrategy(new UpiSend());
-    strategy->send();
+    UpiPaymentClass upiPaymentClass;
+    PayPalPaymentClass payPalPaymentClass;
+    CardPaymentClass cardPaymentClass;
+    ContextPaymentClass contextPaymentClass(&upiPaymentClass);
+    
+    contextPaymentClass.setStrategy(&upiPaymentClass);
+    contextPaymentClass.makePayment(100);
+
+    contextPaymentClass.setStrategy(&payPalPaymentClass);
+    contextPaymentClass.makePayment(200);
+    
+    return 0;
 }
 

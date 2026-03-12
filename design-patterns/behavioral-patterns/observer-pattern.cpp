@@ -8,6 +8,21 @@ using namespace std;
 class Observer{
     public:
         virtual void update() = 0;
+        virtual ~Observer() = default;
+};
+
+class MobileObserver : public Observer{
+    public:
+        void update(){
+            cout<<"Mobile Observer Updated"<<endl;
+        }
+};
+
+class LaptopObserver : public Observer{
+    public:
+        void update(){
+            cout<<"Laptop Observer Updated"<<endl;
+        }
 };
 
 class Stock{
@@ -29,20 +44,6 @@ class Stock{
         }       
 };   
 
-class MobileObserver : public Observer{
-    public:
-        void update(){
-            cout<<"Mobile Observer Updated"<<endl;
-        }
-};
-
-class LaptopObserver : public Observer{
-    public:
-        void update(){
-            cout<<"Laptop Observer Updated"<<endl;
-        }
-};
-
 int main(){
 
     Stock tesla;
@@ -51,7 +52,6 @@ int main(){
 
     tesla.addObserver(&MobileObserver);
     tesla.addObserver(&LaptopObserver);
-
     /*
         When X changes and it change XYZ also. this has to be used
     */

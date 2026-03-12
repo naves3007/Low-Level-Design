@@ -1,12 +1,36 @@
 Best Site for Design Patterns: [Link](https://refactoring.guru/design-patterns/what-is-pattern)
 
-"23 Design Patterns are expected to know"
-"10 Min Design Patterns are must"
+How is pattern different from an algorithm? 
+    Algo is an clear exact way of how to solve an problem, pattern here is an high level idea
+        to solve common programming challenges
 
-5 Things to be known for every design pattern:
-    1. What is it
-    2. 2 scenario examples for the pattern
-    3. UML Diagram for the same
-    4. Implementation details
-    5. Common interview follow ups
+Creational: Object creations & Re-use of Existing code
+Structural: Create large structures to add extra / new funtionality 
+Behavioural: Behaviour & Strategy related
 
+Creational Pattern: 
+    1. Factory Pattern: 
+        You delegate object creation to a factory method or class
+        Can be applied everywhere, why? you don't have to expose how it is done use factory to do it. 
+        You choose "x" here and it's only one object 
+    2. Abstract Factory Pattern:
+        You choose "x" here and it's returns a family of objects //difference between factory pattern
+    3. Builder Pattern:
+        Step by Step Construction 
+    4. Singleton Pattern:
+        Only Single Instance of class is created 
+
+Structural Pattern:
+    1. Adapter Pattern:
+        Creates a adapter class between old and new service
+    2. Decorater Pattern:
+        Wrap a object with another object, add new features on top of another another. 
+
+Behavioral Pattern:
+    1. Strategy Pattern:
+        When some logic is involved.
+    2. Command Pattern: 
+        Client -> Invoker -> Command -> Receiver
+    3. Observer Pattern:
+        Change in X, changes X Y Z also. 
+    
