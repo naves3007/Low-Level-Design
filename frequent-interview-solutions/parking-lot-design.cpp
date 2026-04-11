@@ -138,7 +138,7 @@ public:
   void saveTicket(Ticket &ticket) {
     // Save or update the ticket in DB
   }
-  void updateTicket(Ticket &ticket) {
+  void updateTicket(Ticket &ticket) { 
     // Update the ticket in DB
   }
 };

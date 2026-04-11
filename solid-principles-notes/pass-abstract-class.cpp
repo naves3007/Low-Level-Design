@@ -39,19 +39,19 @@ using namespace std;
 class AbstractReader{
     public:
     virtual void read(const string &fileName) = 0;
-}
+};
 class AbstractWriter{
     public:
     virtual void write(const string &fileName, const vector<string> &data) = 0;
-}
+};
 class AbstractCSVProcessor{
     public:
     virtual void processCSV(const string &fileName) = 0;
-}
+};
 class JSONProcessor{
     public:
     virtual void processJSON(const string &fileName) = 0;
-}
+};
 
 class Reader : public AbstractReader{
     public:
@@ -59,28 +59,28 @@ class Reader : public AbstractReader{
     void read(const string &fileName) override {
         cout << "Reading data from file: " << fileName << "\n"; 
     }
-}
+};
 class Writer : public AbstractWriter{
     public:
     Writer (const string &fileName)  : fileName(fileName) {}
     void write(const string &fileName, const vector<string> &data) override {
         cout << "Writing data to file: " << fileName << "\n"; 
     }
-}
+};
 class CSVProcessor : public AbstractCSVProcessor{
     public:
     CSVProcessor (const string &fileName)  : fileName(fileName) {}
     void processCSV(const string &fileName) override {
         cout << "Processing CSV data from file: " << fileName << "\n"; 
     }
-}
+};
 class JSONProcessor : public AbstractJSONProcessor{
     public:
     JSONProcessor (const string &fileName)  : fileName(fileName) {}
     void processJSON(const string &fileName) override {
         cout << "Processing JSON data from file: " << fileName << "\n"; 
     }
-}
+};
 
 void handleFiles(AbstractReader &reader, AbstractWriter &writer, AbstractCSVProcessor &csvProcessor, AbstractJSONProcessor &jsonProcessor){
     reader.read("data.csv");
